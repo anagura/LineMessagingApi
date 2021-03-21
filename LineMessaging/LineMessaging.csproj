@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+  <PropertyGroup>  
+	<TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>LineMessaging</AssemblyName>
     <RootNamespace>LineMessaging</RootNamespace>
     <SignAssembly>false</SignAssembly>
@@ -49,9 +49,5 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <PackageReference Include="System.Net.Http" Version="4.0.0" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="$(SolutionDir)docs\MarkdownGenerator.exe $(ProjectDir)bin\$(ConfigurationName)\net45\$(TargetFileName) $(SolutionDir)docs" />
-  </Target>
 
 </Project>
