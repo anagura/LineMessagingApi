@@ -157,13 +157,19 @@ namespace LineMessaging
             if (!response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
-                var error = JsonConvert.DeserializeObject<LineErrorResponse>(responseJson);
-                if (error != null)
+                try
                 {
-                    throw new LineMessagingException(path, error);
+                    var error = JsonConvert.DeserializeObject<LineErrorResponse>(responseJson);
+                    if (error != null)
+                    {
+                        throw new LineMessagingException(path, error);
+                    }
+                    throw new LineMessagingException(path,
+                        $"Error has occurred. Response StatusCode:{response.StatusCode} ReasonPhrase:{response.ReasonPhrase}.");
                 }
-                throw new LineMessagingException(path,
-                    $"Error has occurred. Response StatusCode:{response.StatusCode} ReasonPhrase:{response.ReasonPhrase}.");
+                catch (Exception ex) {
+                    throw new LineMessagingException(path, responseJson);
+                }
             }
         }
     }
